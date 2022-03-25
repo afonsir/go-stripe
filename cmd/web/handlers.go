@@ -2,6 +2,7 @@ package main
 
 import "net/http"
 
+// VirtualTerminal displays the virtual terminal page
 func (app *application) VirtualTerminal(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
 	stringMap["publishable_key"] = app.config.stripe.key
@@ -13,6 +14,7 @@ func (app *application) VirtualTerminal(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
+// PaymentSucceeded displays the receipt page
 func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
