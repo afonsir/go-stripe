@@ -43,3 +43,15 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 		app.errorLog.Println(err)
 	}
 }
+
+// ChargeOnce displays the page to buy one widget
+func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
+	stringMap := make(map[string]string)
+	stringMap["publishable_key"] = app.config.stripe.key
+
+	if err := app.renderTemplate(w, r, "buy-once", &templateData{
+		StringMap: stringMap,
+	}, "stripe-js"); err != nil {
+		app.errorLog.Println(err)
+	}
+}

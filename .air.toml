@@ -9,7 +9,8 @@ tmp_dir = "tmp"
 # Just plain old shell command. You could use `make` as well.
 cmd = "go build -o ./tmp/main ./cmd/web/"
 # Binary file yields from `cmd`.
-bin = "tmp main"
+# bin = ";export $(grep -v '^#' .env | xargs); ./tmp/main"
+bin = ";grep -v '^#' .env | xargs; ./tmp/main"
 # Customize binary.
 full_bin = "STRIPE_SECRET= STRIPE_KEY= ./tmp/main"
 # Watch these filename extensions.

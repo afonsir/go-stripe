@@ -88,10 +88,3 @@ func (app *application) parseTemplate(partials []string, page, templateToRender 
 	app.templateCache[templateToRender] = t
 	return t, nil
 }
-
-// ChargeOnce displays the page to buy one widget
-func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
-	if err := app.renderTemplate(w, r, "buy-once", nil); err != nil {
-		app.errorLog.Println(err)
-	}
-}
