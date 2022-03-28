@@ -1,0 +1,13 @@
+create_table("transaction_statuses") {
+    t.Column("id", "integer", {primary: true})
+    t.Column("name", "string", {})
+}
+
+sql("ALTER TABLE transaction_statuses ALTER COLUMN created_at SET DEFAULT NOW();")
+sql("ALTER TABLE transaction_statuses ALTER COLUMN updated_at SET DEFAULT NOW();")
+
+sql("INSERT INTO transaction_statuses (name) VALUES ('Pending');")
+sql("INSERT INTO transaction_statuses (name) VALUES ('Cleared');")
+sql("INSERT INTO transaction_statuses (name) VALUES ('Declined');")
+sql("INSERT INTO transaction_statuses (name) VALUES ('Refunded');")
+sql("INSERT INTO transaction_statuses (name) VALUES ('Partially refunded');")
