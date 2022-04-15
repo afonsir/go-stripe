@@ -69,6 +69,8 @@ type Transaction struct {
 	Amount              int       `json:"amount"`
 	Currency            string    `json:"currency"`
 	LastFour            string    `json:"last_four"`
+	ExpiryMonth         int       `json:"expiry_month"`
+	ExpiryYear          int       `json:"expiry_year"`
 	BankReturnCode      string    `json:"bank_return_code"`
 	TransactionStatusID int       `json:"transaction_status_id"`
 	CreatedAt           time.Time `json:"-"`
