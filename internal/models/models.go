@@ -169,7 +169,7 @@ func (m *DBModel) InsertCustomer(c Customer) (int, error) {
 
 	stmt := `
 		INSERT INTO customers
-			(first_name, second_name, email, created_at, updated_at)
+			(first_name, last_name, email, created_at, updated_at)
 		VALUES (?, ?, ?, ?, ?)
 	`
 
@@ -199,14 +199,15 @@ func (m *DBModel) InsertOrder(order Order) (int, error) {
 
 	stmt := `
 		INSERT INTO orders
-			(widget_id, transaction_id, status_id, quantity,
-			amount, created_at, updated_at)
-		VALUES (?, ?, ?, ?, ?, ?, ?)
+			(widget_id, transaction_id, customer_id, status_id,
+			quantity, amount, created_at, updated_at)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	result, err := m.DB.ExecContext(ctx, stmt,
 		order.WidgetID,
 		order.TransactionID,
+		order.CustomerID,
 		order.StatusID,
 		order.Quantity,
 		order.Amount,
