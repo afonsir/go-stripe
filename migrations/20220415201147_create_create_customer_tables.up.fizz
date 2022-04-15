@@ -1,0 +1,9 @@
+create_table("customers") {
+  t.Column("id", "integer", {primary: true})
+  t.Column("first_name", "string", {"size": 255})
+  t.Column("last_name", "string", {"size": 255})
+  t.Column("email", "string", {})
+}
+
+sql("ALTER TABLE customers ALTER COLUMN created_at SET DEFAULT NOW();")
+sql("ALTER TABLE customers ALTER COLUMN updated_at SET DEFAULT NOW();")
