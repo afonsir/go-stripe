@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // writeJSON writes arbitrary data out as JSON
@@ -56,14 +58,43 @@ func (app *application) badRequest(w http.ResponseWriter, r *http.Request, err e
 	payload.Error = true
 	payload.Message = err.Error()
 
-	out, err := json.MarshalIndent(payload, "", "\t")
+	err = app.writeJSON(w, http.StatusBadRequest, payload)
 	if err != nil {
 		return err
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusBadRequest)
-	w.Write(out)
+	return nil
+}
+
+// invalidCredentials sends a JSON response with status http.StatusUnauthorized, describing the error
+func (app *application) invalidCredentials(w http.ResponseWriter) error {
+	var payload struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+	}
+
+	payload.Error = true
+	payload.Message = "invalid authentication credentials"
+
+	err := app.writeJSON(w, http.StatusUnauthorized, payload)
+	if err != nil {
+		return err
+	}
 
 	return nil
+}
+
+// passwordMatches compares the password provided to saved hashed password from db
+func (app *application) passwordMatches(hash, password string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+
+	return true, nil
 }
