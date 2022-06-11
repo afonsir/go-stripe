@@ -56,3 +56,7 @@ stop_back:
 	@echo "Stopping the back end..."
 	@-pkill -SIGTERM -f "gostripe_api -port=${API_PORT}"
 	@echo "Stopped back end"
+
+## restart: restarts the front and back end
+restart: stop start
+	@echo "All applications restarted"
