@@ -11,9 +11,9 @@ require (
 )
 
 require (
+	github.com/alexedwards/scs/mysqlstore v0.0.0-20220528130143-d93ace5be94b
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
