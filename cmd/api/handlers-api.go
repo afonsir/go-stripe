@@ -305,7 +305,7 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 	payload.Message = fmt.Sprintf("token for %s created", userInput.Email)
 	payload.Token = token
 
-	_ = app.writeJSON(w, http.StatusOK, payload)
+	app.writeJSON(w, http.StatusOK, payload)
 }
 
 func (app *application) authenticateToken(r *http.Request) (*models.User, error) {
