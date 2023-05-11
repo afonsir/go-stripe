@@ -23,6 +23,12 @@ type config struct {
 		secret string
 		key    string
 	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
+	}
 }
 
 type application struct {
@@ -43,7 +49,8 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Println(fmt.Sprintf("Starting backend server in %s mode on port %d", app.config.env, app.config.port))
+	message := fmt.Sprintf("Starting backend server in %s mode on port %d", app.config.env, app.config.port)
+	app.infoLog.Println(message)
 
 	return srv.ListenAndServe()
 }
@@ -54,11 +61,16 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment {developmen|production|maintenance}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "go-stripe:go-stripe@tcp(localhost:3306)/go-stripe?parseTime=true&tls=false", "DSN")
+	flag.StringVar(&cfg.smtp.host, "smtpHost", "smtp.mailtrap.io", "SMTP Host")
+	flag.IntVar(&cfg.smtp.port, "smtpPort", 2525, "SMTP Port")
 
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
+
+	cfg.smtp.username = os.Getenv("SMTP_USERNAME")
+	cfg.smtp.password = os.Getenv("SMTP_PASSWORD")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)

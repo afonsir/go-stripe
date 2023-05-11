@@ -1,4 +1,6 @@
 # export STRIPE_SECRET and STRIPE_KEY
+# export SMTP_USERNAME and SMTP_PASSWORD
+
 GOSTRIPE_PORT=4000
 API_PORT=4001
 DSN=go-stripe:go-stripe@tcp(localhost:3306)/go-stripe?parseTime=true&tls=false
@@ -38,7 +40,7 @@ start_front: build_front
 ## start_back: starts the back end
 start_back: build_back
 	@echo "Starting the back end..."
-	@env STRIPE_KEY=${STRIPE_KEY} STRIPE_SECRET=${STRIPE_SECRET} ./dist/gostripe_api -port=${API_PORT} -dsn="${DSN}" &
+	@env SMTP_USERNAME=${SMTP_USERNAME} SMTP_PASSWORD=${SMTP_PASSWORD} STRIPE_KEY=${STRIPE_KEY} STRIPE_SECRET=${STRIPE_SECRET} ./dist/gostripe_api -port=${API_PORT} -dsn="${DSN}" &
 	@echo "Back end running!"
 
 ## stop: stops the front and back end
