@@ -18,6 +18,8 @@ github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5Cc
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stripe/stripe-go v70.15.0+incompatible h1:hNML7M1zx8RgtepEMlxyu/FpVPrP7KZm1gPFQquJQvM=
 github.com/stripe/stripe-go v70.15.0+incompatible/go.mod h1:A1dQZmO/QypXmsL0T8axYZkSN/uA/T/A64pfKdBAMiY=
+github.com/xhit/go-simple-mail v2.2.2+incompatible h1:Hm2VGfLqiQJ/NnC8SYsrPOPyVYIlvP2kmnotP4RIV74=
+github.com/xhit/go-simple-mail v2.2.2+incompatible/go.mod h1:I8Ctg6vIJZ+Sv7k/22M6oeu/tbFumDY0uxBuuLbtU7Y=
 golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e h1:T8NU3HyQ8ClP4SEE+KbFlg6n0NhuTsN4MyznaarGsZM=
 golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 h1:CIJ76btIcR3eFI5EgSo6k1qKw9KJexJuRLI9G7Hp5wE=
