@@ -35,7 +35,7 @@ start: start_front start_back
 ## start_front: starts the front end
 start_front: build_front
 	@echo "Starting the front end..."
-	@env STRIPE_KEY=${STRIPE_KEY} STRIPE_SECRET=${STRIPE_SECRET} ./dist/gostripe -port=${GOSTRIPE_PORT} -dsn="${DSN}" &
+	@env SECRET_KEY=${SECRET_KEY} STRIPE_KEY=${STRIPE_KEY} STRIPE_SECRET=${STRIPE_SECRET} ./dist/gostripe -port=${GOSTRIPE_PORT} -dsn="${DSN}" &
 	@echo "Front end running!"
 
 ## start_back: starts the back end

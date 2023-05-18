@@ -32,6 +32,8 @@ type config struct {
 		secret string
 		key    string
 	}
+	secretKey string
+	frontend  string
 }
 
 type application struct {
@@ -54,7 +56,8 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Println(fmt.Sprintf("Starting HTTP server in %s mode on port %d", app.config.env, app.config.port))
+	message := fmt.Sprintf("Starting HTTP server in %s mode on port %d", app.config.env, app.config.port)
+	app.infoLog.Println(message)
 
 	return srv.ListenAndServe()
 }
@@ -68,11 +71,14 @@ func main() {
 	flag.StringVar(&cfg.env, "env", "development", "Application environment {developmen|production}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "go-stripe:go-stripe@tcp(localhost:3306)/go-stripe?parseTime=true&tls=false", "DSN")
 	flag.StringVar(&cfg.api, "api", "http://localhost:4001", "API's URL")
+	flag.StringVar(&cfg.frontend, "frontend", "http://localhost:4000", "Frontend's URL")
 
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
+
+	cfg.secretKey = os.Getenv("SECRET_KEY")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
