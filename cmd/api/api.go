@@ -29,6 +29,8 @@ type config struct {
 		username string
 		password string
 	}
+	secretKey string
+	frontend  string
 }
 
 type application struct {
@@ -63,6 +65,7 @@ func main() {
 	flag.StringVar(&cfg.db.dsn, "dsn", "go-stripe:go-stripe@tcp(localhost:3306)/go-stripe?parseTime=true&tls=false", "DSN")
 	flag.StringVar(&cfg.smtp.host, "smtpHost", "smtp.mailtrap.io", "SMTP Host")
 	flag.IntVar(&cfg.smtp.port, "smtpPort", 2525, "SMTP Port")
+	flag.StringVar(&cfg.frontend, "frontend", "http://localhost:4000", "Frontend's URL")
 
 	flag.Parse()
 
@@ -71,6 +74,8 @@ func main() {
 
 	cfg.smtp.username = os.Getenv("SMTP_USERNAME")
 	cfg.smtp.password = os.Getenv("SMTP_PASSWORD")
+
+	cfg.secretKey = os.Getenv("SECRET_KEY")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
