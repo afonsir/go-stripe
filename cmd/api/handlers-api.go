@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"myapp/internal/cards"
 	"myapp/internal/models"
+	"myapp/internal/urlsigner"
 	"net/http"
 	"strconv"
 	"strings"
@@ -423,17 +424,40 @@ func (app *application) SendPasswordResetEmail(w http.ResponseWriter, r *http.Re
 		Email string `json:"email"`
 	}
 
+	var resp struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+	}
+
 	err := app.readJSON(w, r, &payload)
 	if err != nil {
 		app.badRequest(w, r, err)
 		return
 	}
 
+	// verify that email exists
+	_, err = app.DB.GetUserByEmail(payload.Email)
+	if err != nil {
+		resp.Error = true
+		resp.Message = "No matching email found on our system"
+
+		app.writeJSON(w, http.StatusAccepted, resp)
+		return
+	}
+
+	link := fmt.Sprintf("%s/reset-password?email=%s", app.config.frontend, payload.Email)
+
+	signer := urlsigner.Signer{
+		Secret: []byte(app.config.secretKey),
+	}
+
+	signedLink := signer.GenerateTokenFromString(link)
+
 	var data struct {
 		Link string
 	}
 
-	data.Link = "http://google.com"
+	data.Link = signedLink
 
 	// send email
 	err = app.SendEmail("info@widgets.com", payload.Email, "Password Reset Request", "password-reset", data)
@@ -441,11 +465,6 @@ func (app *application) SendPasswordResetEmail(w http.ResponseWriter, r *http.Re
 		app.errorLog.Println(err)
 		app.badRequest(w, r, err)
 		return
-	}
-
-	var resp struct {
-		Error   bool   `json:"error"`
-		Message string `json:"message"`
 	}
 
 	resp.Error = false
